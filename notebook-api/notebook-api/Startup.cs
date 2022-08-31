@@ -17,7 +17,7 @@ namespace notebook_api
         {
             
             services.AddControllers();
-            // Entity framework core configuration. You can use this instruction to configure database related functionality and services
+            // Entity framework core configuration. You can use this instruction to configure database related functionality and services.
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
