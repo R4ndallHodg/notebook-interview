@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using notebook_api.Contracts.V1.Requests;
+using notebook_api.Contracts.V1.Responses;
 using notebook_api.Domain;
 
 namespace notebook_api.Helpers
@@ -9,6 +10,7 @@ namespace notebook_api.Helpers
         public AutoMapperProfiles()
         {
             CreateMap<CreateNoteRequest, Note>();
+            CreateMap<Note, NoteResponse>();
         }
     }
 }

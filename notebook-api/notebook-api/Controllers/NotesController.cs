@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using notebook_api.Contracts;
 using notebook_api.Contracts.V1.Requests;
+using notebook_api.Contracts.V1.Responses;
 using notebook_api.Data;
 using notebook_api.Domain;
+using System.Linq.Dynamic.Core;
 
 namespace notebook_api.Controllers
 {
@@ -18,6 +20,20 @@ namespace notebook_api.Controllers
         {
             this._context = context;
             this._mapper = mapper;
+        }
+
+        [HttpGet(ApiRoutes.Notes.GetAll)]
+        public async Task<ActionResult<List<NoteResponse>>> Get([FromQuery] Filter filter)
+        {
+            IQueryable<Note> notesQueryable = _context.Notes.AsQueryable();
+            if(!string.IsNullOrEmpty(filter.OrderField))
+            {
+                string orderType = filter.OrderAsc ? "ascending" : "descending";
+                notesQueryable = notesQueryable.OrderBy($"{filter.OrderField} {orderType}");
+            }
+
+            List<Note> notes = await notesQueryable.ToListAsync();
+            return _mapper.Map<List<NoteResponse>>(notes);
         }
 
         [HttpPost(ApiRoutes.Notes.Create)]
