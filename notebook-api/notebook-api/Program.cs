@@ -1,17 +1,16 @@
-var builder = WebApplication.CreateBuilder(args);
+using notebook_api;
+
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+Startup startup = new(builder.Configuration);
+startup.ConfigureServices(builder.Services);
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
-// Configure the HTTP request pipeline.
+var logger = app.Services.GetService(typeof(ILogger<Startup>)) as ILogger<Startup>;
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
+startup.Configure(app, app.Environment);
 
 app.Run();
