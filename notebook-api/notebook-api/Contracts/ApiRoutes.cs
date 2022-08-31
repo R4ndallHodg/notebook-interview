@@ -11,6 +11,7 @@
         public static class Notes
         {
             public const string Create = $"{Base}/notes";
+            public const string GetAll = $"{Base}/notes";
         }
     
     }
