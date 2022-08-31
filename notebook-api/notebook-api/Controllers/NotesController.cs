@@ -29,6 +29,16 @@ namespace notebook_api.Controllers
             IQueryable<Note> notesQueryable = _context.Notes.AsQueryable();
 
             // Checking which operation is the one that the user wants to do so we can manipulate the data correctly.
+            if(!string.IsNullOrEmpty(filter.Title))
+            {
+                notesQueryable = notesQueryable.Where(x => x.Title.Contains(filter.Title));
+            }
+
+            if(!string.IsNullOrEmpty(filter.Body))
+            {
+                notesQueryable = notesQueryable.Where(x => x.Title.Contains(filter.Body));
+            }
+
             if(!string.IsNullOrEmpty(filter.OrderField))
             {
                 // Checking if the user wants to get the data in an ascending or descending order.
@@ -70,9 +80,11 @@ namespace notebook_api.Controllers
         [HttpPut(ApiRoutes.Notes.UpdateOneById)]
         public async Task<ActionResult> Put(int id, [FromBody] CreateNoteRequest noteUpdate)
         {
+            // Checking if there is a record with the given id.
             bool existsNote = await _context.Notes.AnyAsync(x => x.Id == id);
             if (!existsNote) return NotFound($"Note with id {id} was not found");
 
+            // Mapping the Note received as a parameter. And changing its status as modified so entity framework can update the record.
             Note note = _mapper.Map<Note>(noteUpdate);
             note.Id = id;
             _context.Entry(note).State = EntityState.Modified;

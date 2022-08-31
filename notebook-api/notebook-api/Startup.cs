@@ -30,7 +30,7 @@ namespace notebook_api
             {
                 options.AddDefaultPolicy(builder =>
                 {
-                    builder.WithOrigins("https://apirequest.io").AllowAnyMethod().AllowAnyHeader();
+                    builder.WithOrigins("http://localhost:4200/").AllowAnyMethod().AllowAnyHeader();
                 });
             });
         }
