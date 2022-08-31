@@ -12,8 +12,9 @@
         {
             public const string Create = $"{Base}/notes";
             public const string GetAll = $"{Base}/notes";
-            public const string FindOneById = $"{Base}/notes/" + "{id:int}";
+            public const string FindOneById = $"{Base}/notes/{{id:int}}";
+            public const string UpdateOneById = $"{Base}/notes/{{id:int}}";
+
         }
-    
     }
 }
