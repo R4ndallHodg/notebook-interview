@@ -66,5 +66,18 @@ namespace notebook_api.Controllers
             NoteResponse noteResponse = _mapper.Map<NoteResponse>(note);
             return CreatedAtRoute("getNoteById", new { id = noteResponse.Id}, noteResponse);
         }
+
+        [HttpPut(ApiRoutes.Notes.UpdateOneById)]
+        public async Task<ActionResult> Put(int id, [FromBody] CreateNoteRequest noteUpdate)
+        {
+            bool existsNote = await _context.Notes.AnyAsync(x => x.Id == id);
+            if (!existsNote) return NotFound($"Note with id {id} was not found");
+
+            Note note = _mapper.Map<Note>(noteUpdate);
+            note.Id = id;
+            _context.Entry(note).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        } 
     }
 }

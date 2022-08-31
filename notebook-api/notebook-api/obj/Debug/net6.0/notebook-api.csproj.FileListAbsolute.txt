@@ -57,3 +57,9 @@ E:\practices\interview-questions\netforemost\api\notebook-interview-api\notebook
 E:\practices\interview-questions\netforemost\api\notebook-interview-api\notebook-api\notebook-api\obj\Debug\net6.0\ref\notebook-api.dll
 E:\practices\interview-questions\netforemost\api\notebook-interview-api\notebook-api\notebook-api\bin\Debug\net6.0\AutoMapper.dll
 E:\practices\interview-questions\netforemost\api\notebook-interview-api\notebook-api\notebook-api\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+E:\practices\interview-questions\netforemost\api\notebook-interview-api\notebook-api\notebook-api\bin\Debug\net6.0\System.Web.Cors.dll
+E:\practices\interview-questions\netforemost\api\notebook-interview-api\notebook-api\notebook-api\bin\Debug\net6.0\System.Net.Http.Formatting.dll
+E:\practices\interview-questions\netforemost\api\notebook-interview-api\notebook-api\notebook-api\bin\Debug\net6.0\System.Web.Http.dll
+E:\practices\interview-questions\netforemost\api\notebook-interview-api\notebook-api\notebook-api\bin\Debug\net6.0\System.Web.Http.Cors.dll
+E:\practices\interview-questions\netforemost\api\notebook-interview-api\notebook-api\notebook-api\bin\Debug\net6.0\Newtonsoft.Json.dll
+E:\practices\interview-questions\netforemost\api\notebook-interview-api\notebook-api\notebook-api\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
