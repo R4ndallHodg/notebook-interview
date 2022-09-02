@@ -11,6 +11,9 @@ export class NotesService {
   private baseUrl: string = environment.baseUrl;
   constructor(private readonly http: HttpClient) {}
 
+  getAllNotes(): Observable<Note[]> {
+    return this.http.get<Note[]>(`${this.baseUrl}/notes`);
+  }
   createNote(note: Note): Observable<Note> {
     return this.http.post<Note>(`${this.baseUrl}/notes`, note);
   }

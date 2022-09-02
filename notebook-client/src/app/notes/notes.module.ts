@@ -10,6 +10,7 @@ import { SearchComponent } from './pages/search/search.component';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { DateToTextPipe } from './pipes/date-to-text.pipe';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { MessageService } from 'primeng/api';
     NoteComponent,
     NotesListComponent,
     SearchComponent,
+    DateToTextPipe,
   ],
   imports: [
     CommonModule,

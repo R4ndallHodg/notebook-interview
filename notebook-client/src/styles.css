@@ -8,3 +8,10 @@ body {
 .txt-layout {
   color: var(--text-color);
 }
+
+.line-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
