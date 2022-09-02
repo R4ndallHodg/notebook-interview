@@ -8,7 +8,7 @@ import { NoteComponent } from './pages/note/note.component';
 import { NotesListComponent } from './pages/notes-list/notes-list.component';
 import { SearchComponent } from './pages/search/search.component';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { DateToTextPipe } from './pipes/date-to-text.pipe';
 
