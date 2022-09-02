@@ -6,6 +6,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { DividerModule } from 'primeng/divider';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
+import { FieldsetModule } from 'primeng/fieldset';
 @NgModule({
   declarations: [],
   exports: [
@@ -16,6 +17,7 @@ import { ToastModule } from 'primeng/toast';
     CalendarModule,
     DividerModule,
     ToastModule,
+    FieldsetModule,
   ],
 })
 export class PrimeNgModule {}

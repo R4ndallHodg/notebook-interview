@@ -1,1 +1,18 @@
-<p>notes-list works!</p>
+<div class="txt-layout">
+  <h1>Search for your notes</h1>
+  <p>Search and see your notes</p>
+</div>
+<p-divider></p-divider>
+<div class="grid">
+  <div *ngFor="let note of notes" class="col-12 md:col-6 lg:col-3">
+    <p-fieldset
+      [toggleable]="true"
+      class="col-12 md:col-6 lg:col-3"
+      [legend]="note.title"
+    >
+      <ng-template pTemplate="header">{{ note.title }}</ng-template>
+      {{ note.date | dateToText }}
+      <p class="line-clamp">{{ note.body }}</p>
+    </p-fieldset>
+  </div>
+</div>
