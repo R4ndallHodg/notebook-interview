@@ -3,15 +3,45 @@
   <p>Search and see your notes</p>
 </div>
 <p-divider></p-divider>
+<p-toolbar>
+  <div class="p-toolbar-group-right">
+    <form class="flex gap-3 align-items-baseline" [formGroup]="sortForm">
+      <div class="flex gap-1 align-items-baseline">
+        <label for="field">Sort By</label>
+        <p-dropdown
+          inputId="field"
+          formControlName="orderField"
+          placeholder="Select a criteria"
+          [ngClass]="{'ng-invalid ng-dirty': (sortForm.get('note')?.errors?.['required'])}"
+          [options]="criteria"
+        ></p-dropdown>
+      </div>
+      <div class="flex gap-1 align-items-baseline">
+        <label for="asc">Order Ascendantly</label>
+        <p-checkbox
+          formControlName="orderAsc"
+          [binary]="true"
+          inputId="asc"
+        ></p-checkbox>
+      </div>
+
+      <button
+        (click)="sortValues()"
+        pButton
+        pRipple
+        icon="pi pi-sort-alt"
+        type="submit"
+        label="Sort Values"
+        class="p-button-outlined"
+      ></button>
+    </form>
+  </div>
+</p-toolbar>
 <div class="grid">
   <div *ngFor="let note of notes" class="col-12 md:col-6 lg:col-3">
-    <p-fieldset
-      [toggleable]="true"
-      class="col-12 md:col-6 lg:col-3"
-      [legend]="note.title"
-    >
+    <p-fieldset [toggleable]="true" class="col-12 md:col-6 lg:col-3">
       <ng-template pTemplate="header">{{ note.title }}</ng-template>
-      {{ note.date | dateToText }}
+      <p class="font-italic font-light">{{ note.date | dateToText }}</p>
       <p class="line-clamp">{{ note.body }}</p>
     </p-fieldset>
   </div>

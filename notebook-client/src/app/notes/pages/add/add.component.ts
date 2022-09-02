@@ -41,7 +41,6 @@ export class AddComponent implements OnInit {
     }
 
     this.notesService.createNote(this.noteForm.value).subscribe((note) => {
-      console.log(note);
       this.messageService.add({
         severity: 'success',
         summary: 'Success',
