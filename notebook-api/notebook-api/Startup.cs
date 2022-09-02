@@ -6,7 +6,7 @@ namespace notebook_api
     public class Startup
     {
         private readonly IConfiguration configuration;
-
+        private const string policyName = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             this.configuration = configuration;
@@ -25,12 +25,12 @@ namespace notebook_api
             // Automapper configuration
             services.AddAutoMapper(typeof(Startup));
 
-
             services.AddCors(options =>
             {
-                options.AddDefaultPolicy(builder =>
+                string frontendURL = configuration.GetValue<string>("frontend_url");
+                options.AddPolicy(name:policyName, builder =>
                 {
-                    builder.WithOrigins("http://localhost:4200/").AllowAnyMethod().AllowAnyHeader();
+                    builder.WithOrigins(frontendURL).AllowAnyMethod().AllowAnyHeader();
                 });
             });
         }
@@ -42,7 +42,7 @@ namespace notebook_api
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
-            app.UseCors();
+            app.UseCors(policyName);
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

@@ -1,1 +1,84 @@
-<p>add works!</p>
+<p-toast></p-toast>
+<div class="h-full flex justify-content-center mt-4 align-items-center">
+  <div
+    class="p-5 border-900 border-1 flex flex-column w-5 align-items-center border-round"
+  >
+    <div class="txt-layout">
+      <h2 class="text-center">Add A New Note</h2>
+    </div>
+    <p-divider class="w-full"></p-divider>
+    <form
+      class="w-full flex flex-column gap-4 mt-4 align-items-center"
+      [formGroup]="noteForm"
+    >
+      <div class="flex flex-column gap-1 w-full justify-content-start">
+        <label for="title">Title</label>
+        <input
+          id="title"
+          class="w-full"
+          type="text"
+          [ngClass]="{'ng-invalid ng-dirty': (noteForm.get('title')?.touched && noteForm.get('title')?.errors?.['required'])}"
+          pInputText
+          formControlName="title"
+        />
+      </div>
+      <div
+        *ngIf="noteForm.get('title')?.touched && noteForm.get('title')?.errors?.['required']"
+        class="bg-pink-100 px-3 py-2 w-full text-center text-pink-900 font-bold"
+      >
+        The Title field is required
+      </div>
+      <div class="flex flex-column gap-1 justify-content-start w-full">
+        <label for="body">Body</label>
+        <textarea
+          id="body"
+          class="w-full"
+          [ngClass]="{'ng-invalid ng-dirty': (noteForm.get('body')?.touched && noteForm.get('body')?.errors?.['required'])}"
+          pInputTextarea
+          formControlName="body"
+        ></textarea>
+      </div>
+
+      <div
+        *ngIf="noteForm.get('body')?.touched && noteForm.get('body')?.errors?.['required']"
+        class="bg-pink-100 px-3 py-2 w-full text-center text-pink-900 font-bold"
+      >
+        The Body field is required
+      </div>
+      <div
+        *ngIf="noteForm.get('body')?.touched && noteForm.get('body')?.errors?.['minlength']"
+        class="bg-pink-100 px-3 py-2 w-full text-center text-pink-900 font-bold"
+      >
+        Body text must be longer than
+        {{ noteForm.get('body')?.errors?.['minlength'].requiredLength}}
+      </div>
+      <div class="flex flex-column gap-1 justify-content-start w-full">
+        <label for="date">Due Date</label>
+        <p-calendar
+          [ngClass]="{'ng-invalid ng-dirty': (noteForm.get('date')?.touched && noteForm.get('date')?.errors?.['required'])}"
+          [showIcon]="true"
+          formControlName="date"
+        ></p-calendar>
+      </div>
+      <div
+        *ngIf="noteForm.get('date')?.touched && noteForm.get('date')?.errors?.['required']"
+        class="bg-pink-100 px-3 py-2 w-full text-center text-pink-900 font-bold"
+      >
+        The Date field is required
+      </div>
+      <p-button (click)="add()" class="align-self-center" formControlName="date"
+        >Submit</p-button
+      >
+      <div
+        *ngIf="(noteForm.get('date')?.touched && noteForm.get('date')?.errors?.['required']) ||  
+        (noteForm.get('body')?.touched && noteForm.get('body')?.errors?.['minlength']) ||
+        (noteForm.get('body')?.touched && noteForm.get('body')?.errors?.['required'])   ||
+        (noteForm.get('date')?.touched && noteForm.get('date')?.errors?.['required'])  ||
+        !noteForm.valid"
+        class="bg-pink-100 px-3 py-2 w-full text-center text-pink-900 font-bold"
+      >
+        Please fill all the form fields
+      </div>
+    </form>
+  </div>
+</div>

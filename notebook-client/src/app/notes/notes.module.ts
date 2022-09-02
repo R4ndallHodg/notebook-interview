@@ -7,7 +7,9 @@ import { AddComponent } from './pages/add/add.component';
 import { NoteComponent } from './pages/note/note.component';
 import { NotesListComponent } from './pages/notes-list/notes-list.component';
 import { SearchComponent } from './pages/search/search.component';
-
+import { PrimeNgModule } from '../prime-ng/prime-ng.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -15,11 +17,14 @@ import { SearchComponent } from './pages/search/search.component';
     AddComponent,
     NoteComponent,
     NotesListComponent,
-    SearchComponent
+    SearchComponent,
   ],
   imports: [
     CommonModule,
-    NotesRoutingModule
-  ]
+    PrimeNgModule,
+    NotesRoutingModule,
+    ReactiveFormsModule,
+  ],
+  providers: [MessageService],
 })
-export class NotesModule { }
+export class NotesModule {}
