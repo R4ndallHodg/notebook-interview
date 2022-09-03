@@ -7,7 +7,7 @@ namespace notebook_api.Contracts.V1.Requests
         [Required]
         public string Title { get; set; }
         [Required]
-        [StringLength(50)]
+        [MinLength(10)]
         public string Body { get; set; }
         [Required]
         public DateTime Date { get; set; }

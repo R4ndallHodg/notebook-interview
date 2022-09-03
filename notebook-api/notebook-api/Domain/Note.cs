@@ -8,7 +8,7 @@ namespace notebook_api.Domain
         [Required]
         public string Title { get; set; }
         [Required]
-        [StringLength(10)]
+        [MinLength(10)]
         public string Body { get; set; }
         [Required]
         public DateTime Date { get; set; }
