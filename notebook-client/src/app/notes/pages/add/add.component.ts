@@ -19,10 +19,10 @@ export class AddComponent implements OnInit {
   noteForm!: FormGroup;
   formIsValid: boolean = true;
   constructor(
-    private readonly formBuilder: FormBuilder,
-    private readonly router: Router,
-    private readonly messageService: MessageService,
-    private readonly notesService: NotesService
+    private readonly _formBuilder: FormBuilder,
+    private readonly _router: Router,
+    private readonly _messageService: MessageService,
+    private readonly _notesService: NotesService
   ) {}
 
   ngOnInit(): void {
@@ -31,8 +31,7 @@ export class AddComponent implements OnInit {
 
   add(): void {
     if (!this.noteForm.valid) {
-      this.formIsValid = false;
-      this.messageService.add({
+      this._messageService.add({
         severity: 'error',
         summary: 'Error',
         detail: 'The note wasn`t saved',
@@ -40,18 +39,32 @@ export class AddComponent implements OnInit {
       return;
     }
 
-    this.notesService.createNote(this.noteForm.value).subscribe((note) => {
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Success',
-        detail: 'The note has been successfully added!!',
-      });
-      this.router.navigate(['/notes/list']);
+    this._notesService.createNote(this.noteForm.value).subscribe((resp) => {
+      if (resp === true) {
+        this._router.navigateByUrl('/notes/list');
+      } else {
+        let errors: string[] = resp.errors?.Body || [];
+        if (errors.length !== 0) {
+          errors.forEach((error: string) => {
+            this._messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: error,
+            });
+          });
+        } else {
+          this._messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: resp,
+          });
+        }
+      }
     });
   }
 
   initForm(): FormGroup {
-    return this.formBuilder.group({
+    return this._formBuilder.group({
       title: ['Example note', [Validators.required]],
       body: [
         'This is some example text',

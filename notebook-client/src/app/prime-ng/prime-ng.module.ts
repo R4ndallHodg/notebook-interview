@@ -10,6 +10,7 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { DropdownModule } from 'primeng/dropdown';
 import { ToolbarModule } from 'primeng/toolbar';
 import { CheckboxModule } from 'primeng/checkbox';
+import { PanelModule } from 'primeng/panel';
 @NgModule({
   declarations: [],
   exports: [
@@ -24,6 +25,7 @@ import { CheckboxModule } from 'primeng/checkbox';
     DropdownModule,
     ToolbarModule,
     CheckboxModule,
+    PanelModule,
   ],
 })
 export class PrimeNgModule {}
