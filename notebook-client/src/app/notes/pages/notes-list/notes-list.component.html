@@ -30,6 +30,7 @@
         pButton
         pRipple
         icon="pi pi-sort-alt"
+        iconPos="right"
         type="submit"
         label="Sort Values"
         class="p-button-outlined"
@@ -38,11 +39,35 @@
   </div>
 </p-toolbar>
 <div class="grid">
-  <div *ngFor="let note of notes" class="col-12 md:col-6 lg:col-3">
+  <div
+    *ngFor="let note of notes"
+    class="cursor-pointer col-12 md:col-6 lg:col-3"
+  >
     <p-fieldset [toggleable]="true" class="col-12 md:col-6 lg:col-3">
       <ng-template pTemplate="header">{{ note.title }}</ng-template>
       <p class="font-italic font-light">{{ note.date | dateToText }}</p>
       <p class="line-clamp">{{ note.body }}</p>
+      <div class="flex w-full flex-wrap justify-content-around">
+        <button
+          [routerLink]="['/notes', note.id]"
+          pButton
+          pRipple
+          type="button"
+          label="See more"
+          class="p-button-success"
+          icon="pi pi-angle-double-up"
+          iconPos="right"
+        ></button>
+        <button
+          pButton
+          pRipple
+          type="button"
+          label="Update"
+          class="p-button-secondary"
+          icon="pi pi-pencil"
+          iconPos="right"
+        ></button>
+      </div>
     </p-fieldset>
   </div>
 </div>
