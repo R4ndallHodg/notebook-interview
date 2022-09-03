@@ -5,9 +5,11 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { NotesService } from '../../services/notes.service';
+import { switchMap } from 'rxjs';
+import { Note } from '../../interfaces/notes.interface';
 
 @Component({
   selector: 'app-add',
@@ -15,18 +17,29 @@ import { NotesService } from '../../services/notes.service';
   providers: [MessageService],
 })
 export class AddComponent implements OnInit {
-  minDate: Date = new Date(new Date().getDate());
+  id!: string;
+  minDate: Date = new Date();
   noteForm!: FormGroup;
   formIsValid: boolean = true;
   constructor(
     private readonly _formBuilder: FormBuilder,
     private readonly _router: Router,
     private readonly _messageService: MessageService,
-    private readonly _notesService: NotesService
+    private readonly _notesService: NotesService,
+    private readonly _activatedRoutes: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.noteForm = this.initForm();
+    if (this._router.url.includes('update')) {
+      this._activatedRoutes.params
+        .pipe(switchMap(({ id }) => this._notesService.findNoteById(id)))
+        .subscribe((resp) => {
+          this.id = resp.id;
+          delete resp.id;
+          this.noteForm.setValue(resp);
+        });
+    }
   }
 
   add(): void {
@@ -39,28 +52,56 @@ export class AddComponent implements OnInit {
       return;
     }
 
-    this._notesService.createNote(this.noteForm.value).subscribe((resp) => {
-      if (resp === true) {
-        this._router.navigateByUrl('/notes/list');
-      } else {
-        let errors: string[] = resp.errors?.Body || [];
-        if (errors.length !== 0) {
-          errors.forEach((error: string) => {
+    if (this.id) {
+      this._notesService
+        .updateNote(this.id, this.noteForm.value)
+        .subscribe((resp) => {
+          console.log(resp);
+          if (!resp) {
+            this._router.navigateByUrl('/notes/list');
+          } else {
+            let errors: string[] = resp?.errors?.Body || [];
+            if (errors.length !== 0) {
+              errors.forEach((error: string) => {
+                this._messageService.add({
+                  severity: 'error',
+                  summary: 'Error',
+                  detail: error,
+                });
+              });
+            } else {
+              this._messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: resp,
+              });
+            }
+          }
+        });
+    } else {
+      this._notesService.createNote(this.noteForm.value).subscribe((resp) => {
+        if (resp === true) {
+          this._router.navigateByUrl('/notes/list');
+        } else {
+          let errors: string[] = resp?.errors?.Body || [];
+          if (errors.length !== 0) {
+            errors.forEach((error: string) => {
+              this._messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: error,
+              });
+            });
+          } else {
             this._messageService.add({
               severity: 'error',
               summary: 'Error',
-              detail: error,
+              detail: resp,
             });
-          });
-        } else {
-          this._messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: resp,
-          });
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   initForm(): FormGroup {

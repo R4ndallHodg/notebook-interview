@@ -28,4 +28,10 @@ export class NotesService {
       .get<Note>(`${this.baseUrl}/notes/${id}`)
       .pipe(catchError((err) => of(err.error)));
   }
+
+  updateNote(id: string, note: Note) {
+    return this._http
+      .put<Note>(`${this.baseUrl}/notes/${id}`, note)
+      .pipe(catchError((err) => of(err.error)));
+  }
 }
