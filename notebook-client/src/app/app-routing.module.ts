@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ErrorPageComponent } from './shared/error-page/error-page.component';
 
+// Routing for the application. Implementing Lazy loading for modules on Notes
 const routes: Routes = [
   {
     path: 'notes',
@@ -9,12 +9,8 @@ const routes: Routes = [
       import('./notes/notes.module').then((m) => m.NotesModule),
   },
   {
-    path: '404',
-    component: ErrorPageComponent,
-  },
-  {
     path: '**',
-    redirectTo: '404',
+    redirectTo: 'notes',
   },
 ];
 

@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
+// Pipe used to map a date to long text
 @Pipe({
   name: 'dateToText',
 })

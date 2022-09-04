@@ -4,7 +4,7 @@
     class="p-5 border-900 border-1 flex flex-column w-5 align-items-center border-round"
   >
     <div class="txt-layout">
-      <h2 class="text-center">{{ id ? "Update a note" : "Add A New" }} Note</h2>
+      <h2 class="text-center">{{ id ? "Update A" : "Add A New" }} Note</h2>
     </div>
     <p-divider class="w-full"></p-divider>
     <form
@@ -33,6 +33,7 @@
         <textarea
           id="body"
           class="w-full"
+          rows="10"
           [ngClass]="{'ng-invalid ng-dirty': (noteForm.get('body')?.touched && noteForm.get('body')?.errors?.['required'])}"
           pInputTextarea
           formControlName="body"
@@ -72,7 +73,7 @@
       >
         The Date field is required
       </div>
-      <p-button (click)="add()" class="align-self-center" formControlName="date"
+      <p-button [loading]="loading" (click)="add()" class="align-self-center"
         >Submit</p-button
       >
       <div

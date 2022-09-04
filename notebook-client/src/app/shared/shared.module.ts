@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PrimeNgModule } from '../prime-ng/prime-ng.module';
+import { NgModule } from '@angular/core';
 import { MenuComponent } from './menu/menu.component';
-import { ErrorPageComponent } from './error-page/error-page.component';
+import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 
+// Shared module that contains components that are going to be used on different parts of the application. Such as the navbar and the error page.
 @NgModule({
-  declarations: [MenuComponent, ErrorPageComponent],
+  declarations: [MenuComponent],
   imports: [CommonModule, PrimeNgModule],
   exports: [MenuComponent],
 })

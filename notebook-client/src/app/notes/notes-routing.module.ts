@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './pages/home/home.component';
 import { AddComponent } from './pages/add/add.component';
-import { NotesListComponent } from './pages/notes-list/notes-list.component';
-import { SearchComponent } from './pages/search/search.component';
+import { HomeComponent } from './pages/home/home.component';
+import { NgModule } from '@angular/core';
 import { NoteComponent } from './pages/note/note.component';
+import { NotesListComponent } from './pages/notes-list/notes-list.component';
+import { RouterModule, Routes } from '@angular/router';
 
+// In this module we configure the routes for the notes module.
 const routes: Routes = [
   {
     path: '',
@@ -18,10 +18,6 @@ const routes: Routes = [
       {
         path: 'list',
         component: NotesListComponent,
-      },
-      {
-        path: 'search',
-        component: SearchComponent,
       },
       {
         path: 'update/:id',

@@ -1,3 +1,4 @@
+// Query params interface.
 export interface Params {
   title?: string;
   body?: string;

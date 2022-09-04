@@ -1,31 +1,33 @@
-import { NgModule } from '@angular/core';
-import { MenubarModule } from 'primeng/menubar';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { CalendarModule } from 'primeng/calendar';
-import { DividerModule } from 'primeng/divider';
 import { ButtonModule } from 'primeng/button';
-import { ToastModule } from 'primeng/toast';
-import { FieldsetModule } from 'primeng/fieldset';
-import { DropdownModule } from 'primeng/dropdown';
-import { ToolbarModule } from 'primeng/toolbar';
+import { CalendarModule } from 'primeng/calendar';
 import { CheckboxModule } from 'primeng/checkbox';
+import { DividerModule } from 'primeng/divider';
+import { DropdownModule } from 'primeng/dropdown';
+import { FieldsetModule } from 'primeng/fieldset';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputTextModule } from 'primeng/inputtext';
+import { MenubarModule } from 'primeng/menubar';
+import { NgModule } from '@angular/core';
 import { PanelModule } from 'primeng/panel';
+import { ToastModule } from 'primeng/toast';
+import { ToolbarModule } from 'primeng/toolbar';
+
+// Module created specific for managing primng components
 @NgModule({
   declarations: [],
   exports: [
-    MenubarModule,
     ButtonModule,
-    InputTextModule,
-    InputTextareaModule,
     CalendarModule,
-    DividerModule,
-    ToastModule,
-    FieldsetModule,
-    DropdownModule,
-    ToolbarModule,
     CheckboxModule,
+    DividerModule,
+    DropdownModule,
+    FieldsetModule,
+    InputTextareaModule,
+    InputTextModule,
+    MenubarModule,
     PanelModule,
+    ToastModule,
+    ToolbarModule,
   ],
 })
 export class PrimeNgModule {}

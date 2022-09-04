@@ -4,6 +4,26 @@
 </div>
 <p-divider></p-divider>
 <p-toolbar>
+  <div class="p-tool-bar-group-left w-40rem">
+    <form [formGroup]="searchForm" class="flex gap-1">
+      <input class="w-full" type="text" formControlName="query" pInputText />
+      <p-dropdown
+        inputId="field"
+        formControlName="criteria"
+        placeholder="Select a criteria"
+        [ngClass]="{'ng-invalid ng-dirty': (sortForm.get('note')?.errors?.['required'])}"
+        [options]="searchCriteria"
+      ></p-dropdown>
+      <p-button
+        [disabled]="!searchForm.valid"
+        label="Search"
+        icon="pi pi-search"
+        [loading]="loadingSearch"
+        iconPos="right"
+        (click)="search()"
+      ></p-button>
+    </form>
+  </div>
   <div class="p-toolbar-group-right">
     <form class="flex gap-3 align-items-baseline" [formGroup]="sortForm">
       <div class="flex gap-1 align-items-baseline">
@@ -13,7 +33,7 @@
           formControlName="orderField"
           placeholder="Select a criteria"
           [ngClass]="{'ng-invalid ng-dirty': (sortForm.get('note')?.errors?.['required'])}"
-          [options]="criteria"
+          [options]="sortCriteria"
         ></p-dropdown>
       </div>
       <div class="flex gap-1 align-items-baseline">
@@ -27,8 +47,10 @@
 
       <button
         (click)="sortValues()"
+        [loading]="loadingSort"
         pButton
         pRipple
+        [disabled]="!sortForm.valid"
         icon="pi pi-sort-alt"
         iconPos="right"
         type="submit"
@@ -38,12 +60,21 @@
     </form>
   </div>
 </p-toolbar>
+<div class="flex w-full justify-content-center" *ngIf="loadingNotes">
+  <i class="pi pi-spin pi-spinner" style="font-size: 20rem"></i>
+</div>
+<div
+  class="flex w-full justify-content-center"
+  *ngIf="notes.length === 0 && searchForm.value.query.trim().length > 0"
+>
+  <h1>Sorry, no results were found :/</h1>
+</div>
 <div class="grid">
   <div
     *ngFor="let note of notes"
-    class="cursor-pointer col-12 md:col-6 lg:col-3"
+    class="cursor-pointer col-12 md:col-6 lg:col-3 mt-4"
   >
-    <p-fieldset [toggleable]="true" class="col-12 md:col-6 lg:col-3">
+    <p-fieldset [toggleable]="true">
       <ng-template pTemplate="header">{{ note.title }}</ng-template>
       <p class="font-italic font-light">{{ note.date | dateToText }}</p>
       <p class="line-clamp">{{ note.body }}</p>
