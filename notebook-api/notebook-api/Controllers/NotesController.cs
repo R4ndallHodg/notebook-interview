@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using notebook_api.Data;
 using notebook_api.Contracts;
 using notebook_api.Contracts.V1.Requests;
 using notebook_api.Contracts.V1.Responses;
-using notebook_api.Data;
 using notebook_api.Domain;
 using System.Linq.Dynamic.Core;
 
@@ -36,7 +36,7 @@ namespace notebook_api.Controllers
 
             if(!string.IsNullOrEmpty(filter.Body))
             {
-                notesQueryable = notesQueryable.Where(x => x.Title.Contains(filter.Body));
+                notesQueryable = notesQueryable.Where(x => x.Body.Contains(filter.Body));
             }
 
             if(!string.IsNullOrEmpty(filter.OrderField))
@@ -67,7 +67,7 @@ namespace notebook_api.Controllers
         {
             // Checking if there is already a note with the same title.
             bool existsNoteWithTheSameTitle = await _context.Notes.AnyAsync(note => note.Title == createNoteRequest.Title);
-            if (existsNoteWithTheSameTitle) return BadRequest($"There is already an author with the name {createNoteRequest.Title}");
+            if (existsNoteWithTheSameTitle) return BadRequest($"There is already a note with the title {createNoteRequest.Title}");
 
             // Mapping type from CreateNoteRequest to Note so entity framework can save it.
             Note note = _mapper.Map<Note>(createNoteRequest);
