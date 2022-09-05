@@ -66,6 +66,7 @@ export class NotesListComponent implements OnInit {
     if (this.sortForm.valid) {
       this.loadingSort = true;
       this.loadingNotes = true;
+      this.notes = [];
       let params: Params = {};
 
       // If there is a query to search for it will get search the results for that query and sort the results with a given criteria. Else it will sort the notes with a given criteria
@@ -94,6 +95,7 @@ export class NotesListComponent implements OnInit {
       let params: Params = {};
       this.loadingSearch = true;
       this.loadingNotes = true;
+      this.notes = [];
 
       params = {
         [this.searchForm.value.criteria]: this.searchForm.value.query,

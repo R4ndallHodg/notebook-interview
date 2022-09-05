@@ -15,7 +15,7 @@ export class AddComponent implements OnInit {
   minDate: Date = new Date();
   noteForm!: FormGroup;
   loading: boolean = false;
-  formIsValid: boolean = true;
+
   constructor(
     private readonly _formBuilder: FormBuilder,
     private readonly _router: Router,
