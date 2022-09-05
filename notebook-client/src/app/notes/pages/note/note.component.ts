@@ -30,10 +30,8 @@ export class NoteComponent implements OnInit {
         })
       )
       .subscribe((resp) => {
-        console.log(resp);
         if (resp?.id) {
           this.note = resp;
-          console.log(this.note);
         } else {
           this._messageService.add({
             severity: 'error',

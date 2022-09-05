@@ -69,7 +69,6 @@ export class AddComponent implements OnInit {
         });
     } else {
       this._notesService.createNote(this.noteForm.value).subscribe((resp) => {
-        console.log(resp);
         if (!resp.errors) {
           this.loading = true;
           this._router.navigateByUrl('/notes/list');
