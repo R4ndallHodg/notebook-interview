@@ -1,12 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using notebook_api.Data;
+using notebook_api.Services;
 
 namespace notebook_api
 {
     public class Startup
     {
         private readonly IConfiguration configuration;
-        private const string policyName = "_myAllowSpecificOrigins";
+        private const string PolicyName = "_myAllowSpecificOrigins";
+
         public Startup(IConfiguration configuration)
         {
             this.configuration = configuration;
@@ -17,18 +19,22 @@ namespace notebook_api
         {
             
             services.AddControllers();
+
             // Entity framework core configuration. You can use this instruction to configure database related functionality and services.
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
+
             // Automapper configuration
             services.AddAutoMapper(typeof(Startup));
+
+            services.AddScoped<INoteService, NoteService>();
 
             services.AddCors(options =>
             {
                 string frontendURL = configuration.GetValue<string>("frontend_url");
-                options.AddPolicy(name:policyName, builder =>
+                options.AddPolicy(name:PolicyName, builder =>
                 {
                     builder.WithOrigins(frontendURL).AllowAnyMethod().AllowAnyHeader();
                 });
@@ -39,10 +45,14 @@ namespace notebook_api
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
+
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
+
             app.UseRouting();
-            app.UseCors(policyName);
+
+            app.UseCors(PolicyName);
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

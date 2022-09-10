@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { NotesService } from '../../services/notes.service';
 import { switchMap } from 'rxjs';
+import { ErrorResponse } from '../../interfaces/errorResponse.interface';
 
 @Component({
   selector: 'app-add',
