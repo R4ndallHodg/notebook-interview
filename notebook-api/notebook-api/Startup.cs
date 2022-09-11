@@ -7,7 +7,7 @@ namespace notebook_api
     public class Startup
     {
         private readonly IConfiguration configuration;
-        private const string PolicyName = "_myAllowSpecificOrigins";
+        private readonly string PolicyName = "_myAllowSpecificOrigins";
 
         public Startup(IConfiguration configuration)
         {
