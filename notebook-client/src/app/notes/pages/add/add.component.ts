@@ -38,7 +38,7 @@ export class AddComponent implements OnInit {
             delete resp.id;
             this.noteForm.setValue(resp);
           } else {
-            this.showError(resp);
+            this.showToastError(resp);
           }
         });
     }
@@ -51,7 +51,9 @@ export class AddComponent implements OnInit {
       this._messageService.add({
         severity: 'error',
         summary: 'Error',
-        detail: 'The note wasn`t saved',
+        detail:
+          'The note was not saved. Make sure to fill all the form fields correctly.',
+        life: 3000,
       });
       return;
     }
@@ -65,7 +67,7 @@ export class AddComponent implements OnInit {
           if (!resp) {
             this._router.navigateByUrl('/notes/list');
           } else {
-            this.showError(resp);
+            this.showToastError(resp);
           }
         });
     } else {
@@ -74,7 +76,7 @@ export class AddComponent implements OnInit {
           this.loading = true;
           this._router.navigateByUrl('/notes/list');
         } else {
-          this.showError(resp);
+          this.showToastError(resp);
         }
       });
     }
@@ -89,10 +91,17 @@ export class AddComponent implements OnInit {
     });
   }
 
+  isUnvalidField(name: string): boolean | null {
+    return (
+      this.noteForm.controls[name].errors &&
+      this.noteForm.controls[name].touched
+    );
+  }
+
   // Method that receives an error response and shows a certain operation error`s. It has an any value type because the error can come on different ways
   // The error structure depends on if the validation comes from a data annotation which would return a whole object as a
   //or if it is an error that is returned as a response from the API wich is an string in that case.
-  showError(resp: any) {
+  showToastError(resp: any): void {
     let errors: string[] = resp?.errors?.Body || [];
     if (errors.length !== 0) {
       this.loading = false;
