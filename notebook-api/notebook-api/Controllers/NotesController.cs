@@ -6,57 +6,40 @@ using notebook_api.Contracts;
 using notebook_api.Contracts.V1.Requests;
 using notebook_api.Contracts.V1.Responses;
 using notebook_api.Domain;
-using System.Linq.Dynamic.Core;
+using notebook_api.Services;
 
 namespace notebook_api.Controllers
 {
     [ApiController]
     public class NotesController: ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly INoteService _noteService;
         private readonly IMapper _mapper;
 
-        public NotesController(ApplicationDbContext context, IMapper mapper)
+        public NotesController(ApplicationDbContext context, IMapper mapper, INoteService noteService)
         {
-            this._context = context;
-            this._mapper = mapper;
+            _mapper = mapper;
+            _noteService = noteService;
         }
 
         [HttpGet(ApiRoutes.Notes.GetAll)]
         public async Task<ActionResult<List<NoteResponse>>> Get([FromQuery] Filter filter)
         {
-            // Returning the notes collection as a Queryable collection so we can manipulate its information.
-            IQueryable<Note> notesQueryable = _context.Notes.AsQueryable();
+            // Using note service`s method GetNotesAsync which receives a Filter Object to search by an specific criteria
+            // and this method returns a List of notes.
+            List<Note> notes = await _noteService.GetNotesAsync(filter);
 
-            // Checking which operation is the one that the user wants to do so we can manipulate the data correctly.
-            if(!string.IsNullOrEmpty(filter.Title))
-            {
-                notesQueryable = notesQueryable.Where(x => x.Title.Contains(filter.Title));
-            }
-
-            if(!string.IsNullOrEmpty(filter.Body))
-            {
-                notesQueryable = notesQueryable.Where(x => x.Body.Contains(filter.Body));
-            }
-
-            if(!string.IsNullOrEmpty(filter.OrderField))
-            {
-                // Checking if the user wants to get the data in an ascending or descending order.
-                string orderType = filter.OrderAsc ? "ascending" : "descending";
-                // Method included with the nuget package System.Linq.Dynamic.Core. Here we pass the field and the order in which we want to sort the elements from the queryable.
-                notesQueryable = notesQueryable.OrderBy($"{filter.OrderField} {orderType}");
-            }
-
-            // Maping to the return type and returning the data.
-            List<Note> notes = await notesQueryable.ToListAsync();
-            return _mapper.Map<List<NoteResponse>>(notes);
+            // Mapping the notes received to the response type.
+            List<NoteResponse> response = _mapper.Map<List<NoteResponse>>(notes);
+            return Ok(response);
         }
 
         [HttpGet(ApiRoutes.Notes.FindOneById, Name = "getNoteById")]
         public async Task<ActionResult<NoteResponse>> Get(int id)
         {
-            // Using first or default to find the element. If we dont find any element that matches the id then is going to return null.
-            Note note = await _context.Notes.AsNoTracking().FirstOrDefaultAsync(note => note.Id == id);
+            // Using note service`s method GetNoteAsync which receives an id as a parameter and returns a note object
+            // if the resource is found it returns the first coincidence else it will return a null value.
+            Note note = await _noteService.GetNoteAsync(id);
 
             // Returning not found resource (404) or the element. This condition is going to depend on if we found the element or not.
             return note is null ? NotFound($"The note with id {id} was not found") : _mapper.Map<NoteResponse>(note);
@@ -65,14 +48,17 @@ namespace notebook_api.Controllers
         [HttpPost(ApiRoutes.Notes.Create)]
         public async Task<ActionResult> CreatePost([FromBody] CreateNoteRequest createNoteRequest)
         {
-            // Checking if there is already a note with the same title.
-            bool existsNoteWithTheSameTitle = await _context.Notes.AnyAsync(note => note.Title == createNoteRequest.Title);
-            if (existsNoteWithTheSameTitle) return BadRequest($"There is already a note with the title {createNoteRequest.Title}");
 
-            // Mapping type from CreateNoteRequest to Note so entity framework can save it.
+            // Mapping type from CreateNoteRequest to Note so we can pass this value to the note service.
             Note note = _mapper.Map<Note>(createNoteRequest);
-            _context.Add(note);
-            await _context.SaveChangesAsync();
+
+            // Checking if the service could successfully create a new note in the database. In case that a mistake happens we return a bad request error
+            // Indicating to the user that something went wrong with the petition.
+            bool created = await _noteService.CreateNoteAsync(note);
+
+            if (!created)
+                return BadRequest("Unable to create note :/");
+
             NoteResponse noteResponse = _mapper.Map<NoteResponse>(note);
             return CreatedAtRoute("getNoteById", new { id = noteResponse.Id}, noteResponse);
         }
@@ -80,16 +66,17 @@ namespace notebook_api.Controllers
         [HttpPut(ApiRoutes.Notes.UpdateOneById)]
         public async Task<ActionResult> Put(int id, [FromBody] CreateNoteRequest noteUpdate)
         {
-            // Checking if there is a record with the given id.
-            bool existsNote = await _context.Notes.AnyAsync(x => x.Id == id);
-            if (!existsNote) return NotFound($"Note with id {id} was not found");
-
-            // Mapping the Note received as a parameter. And changing its status as modified so entity framework can update the record.
+            
             Note note = _mapper.Map<Note>(noteUpdate);
             note.Id = id;
-            _context.Entry(note).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            return NoContent();
+
+            // Checking if the service could successfully create a new note in the database. In case that a mistake happens we return a not found error
+            bool updated = await _noteService.UpdateNoteAsync(note);
+
+            if(updated)
+                return NoContent();
+
+            return NotFound($"The Note with id: ${id} was not found" );
         } 
     }
 }

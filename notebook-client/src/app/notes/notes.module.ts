@@ -8,7 +8,7 @@ import { NoteComponent } from './pages/note/note.component';
 import { NotesListComponent } from './pages/notes-list/notes-list.component';
 import { NotesRoutingModule } from './notes-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { PrimeNgModule } from '../prime-ng/prime-ng.module';
+import { SharedModule } from '../shared/shared.module';
 
 // Note created for managing anything related with notes. In this case we manage all the crud, routing and setup operations
 @NgModule({
@@ -22,8 +22,8 @@ import { PrimeNgModule } from '../prime-ng/prime-ng.module';
   imports: [
     CommonModule,
     NotesRoutingModule,
-    PrimeNgModule,
     ReactiveFormsModule,
+    SharedModule,
   ],
   providers: [MessageService],
 })

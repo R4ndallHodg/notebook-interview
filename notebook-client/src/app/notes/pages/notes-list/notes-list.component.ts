@@ -9,13 +9,7 @@ import { Params } from '../../interfaces/params.interface';
 @Component({
   selector: 'app-notes-list',
   templateUrl: './notes-list.component.html',
-  styles: [
-    `
-      .w-40rem {
-        width: 40rem !important;
-      }
-    `,
-  ],
+  styles: [``],
 })
 export class NotesListComponent implements OnInit {
   notes!: Note[];

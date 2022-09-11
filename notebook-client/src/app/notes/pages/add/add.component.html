@@ -17,13 +17,13 @@
           id="title"
           class="w-full"
           type="text"
-          [ngClass]="{'ng-invalid ng-dirty': (noteForm.get('title')?.touched && noteForm.get('title')?.errors?.['required'])}"
+          [ngClass]="{ 'ng-invalid ng-dirty': isUnvalidField('title') }"
           pInputText
           formControlName="title"
         />
       </div>
       <div
-        *ngIf="noteForm.get('title')?.touched && noteForm.get('title')?.errors?.['required']"
+        *ngIf="isUnvalidField('title')"
         class="bg-pink-100 px-3 py-2 w-full text-center text-pink-900 font-bold"
       >
         The Title field is required
@@ -34,7 +34,7 @@
           id="body"
           class="w-full"
           rows="10"
-          [ngClass]="{'ng-invalid ng-dirty': (noteForm.get('body')?.touched && noteForm.get('body')?.errors?.['required'])}"
+          [ngClass]="{ 'ng-invalid ng-dirty': isUnvalidField('body') }"
           pInputTextarea
           formControlName="body"
         ></textarea>
@@ -57,7 +57,7 @@
       <div class="flex flex-column gap-1 justify-content-start w-full">
         <label for="date">Due Date</label>
         <p-calendar
-          [ngClass]="{'ng-invalid ng-dirty': (noteForm.get('date')?.touched && noteForm.get('date')?.errors?.['required'])}"
+          [ngClass]="{ 'ng-invalid ng-dirty': isUnvalidField('date') }"
           [style]="{ width: '100%' }"
           [inputStyle]="{ width: '100%' }"
           [showIcon]="true"
@@ -69,24 +69,18 @@
         ></p-calendar>
       </div>
       <div
-        *ngIf="noteForm.get('date')?.touched && noteForm.get('date')?.errors?.['required']"
+        *ngIf="isUnvalidField('date')"
         class="bg-pink-100 px-3 py-2 w-full text-center text-pink-900 font-bold"
       >
         The Date field is required
       </div>
-      <p-button [loading]="loading" (click)="add()" class="align-self-center"
+      <p-button
+        [loading]="loading"
+        (click)="add()"
+        class="align-self-center"
+        [disabled]="!noteForm.valid"
         >Submit</p-button
       >
-      <div
-        *ngIf="(noteForm.get('date')?.touched && noteForm.get('date')?.errors?.['required']) ||  
-        (noteForm.get('body')?.touched && noteForm.get('body')?.errors?.['minlength']) ||
-        (noteForm.get('body')?.touched && noteForm.get('body')?.errors?.['required'])   ||
-        (noteForm.get('date')?.touched && noteForm.get('date')?.errors?.['required'])  ||
-        !noteForm.valid"
-        class="bg-pink-100 px-3 py-2 w-full text-center text-pink-900 font-bold"
-      >
-        Please fill all the form fields
-      </div>
     </form>
   </div>
 </div>
