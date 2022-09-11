@@ -34,12 +34,9 @@ namespace notebook_api
             services.AddCors(options =>
             {
                 string frontendURL = configuration.GetValue<string>("frontend_url");
-<<<<<<< HEAD
-                options.AddPolicy(name:PolicyName, builder =>
-=======
 
-                options.AddPolicy(name:policyName, builder =>
->>>>>>> origin/main
+                options.AddPolicy(name:PolicyName, builder =>
+
                 {
                     builder.WithOrigins(frontendURL).AllowAnyMethod().AllowAnyHeader();
                 });
