@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using notebook_api.Data;
 using notebook_api.Contracts;
 using notebook_api.Contracts.V1.Requests;
 using notebook_api.Contracts.V1.Responses;
@@ -16,7 +14,7 @@ namespace notebook_api.Controllers
         private readonly INoteService _noteService;
         private readonly IMapper _mapper;
 
-        public NotesController(ApplicationDbContext context, IMapper mapper, INoteService noteService)
+        public NotesController(IMapper mapper, INoteService noteService)
         {
             _mapper = mapper;
             _noteService = noteService;
