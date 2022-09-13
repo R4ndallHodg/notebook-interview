@@ -42,7 +42,9 @@ namespace notebook_api.Controllers
             Note note = await _noteService.GetNoteAsync(id);
 
             // Returning not found resource (404) or the element. This condition is going to depend on if we found the element or not.
-            return note is null ? NotFound($"The note with id {id} was not found") : _mapper.Map<NoteResponse>(note);
+            return note is null ? 
+                NotFound($"The note with id {id} was not found") :
+                _mapper.Map<NoteResponse>(note);
         }
 
         [HttpPost(ApiRoutes.Notes.Create)]
