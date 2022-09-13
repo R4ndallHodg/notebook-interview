@@ -1,5 +1,4 @@
 ﻿using notebook_api.Contracts.V1.Requests;
-using notebook_api.Contracts.V1.Responses;
 using notebook_api.Domain;
 
 namespace notebook_api.Services

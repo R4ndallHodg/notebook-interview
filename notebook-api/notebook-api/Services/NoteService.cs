@@ -12,7 +12,7 @@ namespace notebook_api.Services
     {
         private readonly ApplicationDbContext _context;
 
-        public NoteService(ApplicationDbContext context, IMapper mapper)
+        public NoteService(ApplicationDbContext context)
         {
             _context = context;
         }

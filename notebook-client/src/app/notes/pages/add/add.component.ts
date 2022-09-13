@@ -4,7 +4,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { NotesService } from '../../services/notes.service';
 import { switchMap } from 'rxjs';
-import { ErrorResponse } from '../../interfaces/errorResponse.interface';
 
 @Component({
   selector: 'app-add',
@@ -63,7 +62,6 @@ export class AddComponent implements OnInit {
       this._notesService
         .updateNote(this.id, this.noteForm.value)
         .subscribe((resp) => {
-          console.log(resp);
           if (!resp) {
             this._router.navigateByUrl('/notes/list');
           } else {
